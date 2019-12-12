@@ -2,20 +2,27 @@ import React from "react";
 import { subjects } from "data";
 
 import {
-  Paper,
+  Box,
   Table,
   TableCell,
   TableBody,
   TableHead,
   TableRow,
-  Toolbar
+  Toolbar,
+  Fab
 } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
-    width: "100%",
+    width: "100%"
+  },
+  fab: {
+    position: "fixed",
+    right: theme.spacing(3),
+    bottom: theme.spacing(4)
   }
 }));
 
@@ -23,7 +30,7 @@ const Subjects = () => {
   const styles = useStyles();
 
   return (
-    <Paper className={styles.root}>
+    <Box component={"div"} className={styles.root}>
       <Toolbar />
       <Table className={styles.table}>
         <TableHead>
@@ -47,7 +54,10 @@ const Subjects = () => {
           ))}
         </TableBody>
       </Table>
-    </Paper>
+      <Fab size={"medium"} color={"primary"} className={styles.fab}>
+        <AddIcon />
+      </Fab>
+    </Box>
   );
 };
 

@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     width: "250px"
-  }
+  },
+
 }));
 
 const pages = [
@@ -59,7 +60,7 @@ const NavBar = () => {
             style={{ textDecoration: "none", color: "inherit" }}
             key={title}
           >
-            <ListItem button component={"li"}>
+            <ListItem button component={"li"} className={styles.navItem}>
               <ListItemText primary={title} />
             </ListItem>
           </Link>
