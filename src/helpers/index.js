@@ -8,6 +8,21 @@ export const dateGenerator = year => {
   return [day, month, year].join("/");
 };
 
+export const getTodayDate = () => {
+  let today = new Date();
+  const dd = padString(today.getDate(), "0", 2);
+  const mm = padString(today.getMonth(), "0", 2);
+  const yyyy = padString(today.getFullYear(), "0", 4);
+  return [dd, mm, yyyy].join("/");
+};
+
+export const isValidExcel = (headers, validators) => {
+  for (let i = 0; i < headers.length; i++) {
+    if (headers[i] !== validators[i]) return false;
+  }
+  return true;
+};
+
 const padString = (initialString, char, length) => {
   let res = initialString.toString();
   for (let i = 0; i < length - res.length; i++) {

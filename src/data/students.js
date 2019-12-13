@@ -14,3 +14,4 @@ for (let i = 0; i < Math.floor(Math.random() * 100); i++) {
 }
 
 export default students;
+export { clss };
