@@ -1,5 +1,5 @@
 import subjects from "./subjects";
-import students from "./subjects";
+import students from "./students";
 import rooms from "./rooms";
 import exams from "./exams";
 

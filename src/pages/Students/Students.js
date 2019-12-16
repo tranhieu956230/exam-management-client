@@ -1,122 +1,44 @@
 import React, { useState, useEffect } from "react";
-import XLSX from "xlsx";
+import { Switch, Route } from "react-router-dom";
+import SwipeableViews from "react-swipeable-views";
+import { Box, Toolbar, Paper } from "@material-ui/core";
 
-import Search from "components/Search";
-import CreateStudentDialog from "components/CreateStudent";
+import NavTabs from "components/NavTabs";
+import ListStudent from "pages/ListStudent";
 
-import students from "data/students";
-import { clss } from "data/students";
-import { isValidExcel } from "helpers";
-
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Toolbar,
-  Typography,
-  IconButton,
-  Tooltip,
-  Paper
-} from "@material-ui/core";
-
-import AddIcon from "@material-ui/icons/Add";
-import DownloadIcon from "@material-ui/icons/GetApp";
 import { useStyles } from "./Students.css";
-import Fuse from "fuse.js";
 
-const options = {
-  keys: ["id", "name", "dob", "cls"],
-  threshold: 0.1
-};
+import { students } from "data";
 
-const Students = ({ history }) => {
+const Students = () => {
   const styles = useStyles();
-  const [dialog, setDialog] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [excelData, setExcelData] = useState("");
+  const [tab, setTab] = useState(0);
 
-  const handleFileUpload = event => {
-    let data = event.target.files[0];
-    let reader = new FileReader();
-    reader.onload = event => {
-      data = new Uint8Array(event.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-      const firstSheet = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheet];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-      if (isValidExcel(jsonData[0], ["MSSV", "Tên", "Ngày sinh", "Lớp"])) {
-        setExcelData(jsonData);
-        console.log(jsonData);
-      }
-    };
-    reader.readAsArrayBuffer(data);
+  const handleChangeTab = (event, newValue) => {
+    setTab(newValue);
   };
 
-  const handleAddStudent = () => {
-    setDialog(true);
-  };
-
-  const handleSearch = event => {
-    setSearchTerm(event.target.value);
-  };
-
-  const fuse = new Fuse(students, options);
-  const dataDisplay = searchTerm ? fuse.search(searchTerm) : students;
+  const location = [
+    {
+      label: "List",
+      to: "/students/list"
+    }
+  ];
 
   return (
     <Box component={"div"} className={styles.root}>
       <Toolbar />
-      <CreateStudentDialog open={dialog} onClose={() => setDialog(false)} />
+      <NavTabs tabs={location} value={tab} onChange={handleChangeTab} />
       <Paper className={styles.content}>
-        <Toolbar className={styles.toolbar}>
-          <Typography variant={"h6"} color={"inherit"} className={styles.title}>
-            Sinh viên
-          </Typography>
-          <Search search={searchTerm} onSearch={handleSearch} />
-          <div className={styles.actionMenu}>
-            <Tooltip title={"Thêm sinh viên"}>
-              <IconButton href={""} onClick={handleAddStudent}>
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
-            <input
-              accept={".xlsx"}
-              id={"upload"}
-              type={"file"}
-              className={styles.upload}
-              onChange={handleFileUpload}
+        <Switch>
+          <SwipeableViews index={tab}>
+            <Route
+              exact
+              path={"/students/list"}
+              render={props => <ListStudent {...props} students={students} />}
             />
-            <label htmlFor={"upload"}>
-              <IconButton component={"span"} href={""}>
-                <DownloadIcon />
-              </IconButton>
-            </label>
-          </div>
-        </Toolbar>
-
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>ID Sinh viên</TableCell>
-              <TableCell>Họ và tên</TableCell>
-              <TableCell>Ngày sinh</TableCell>
-              <TableCell>Lớp</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataDisplay.map(({ id, name, dob, cls }) => (
-              <TableRow key={id + dob} className={styles.row}>
-                <TableCell>{id}</TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>{dob}</TableCell>
-                <TableCell>{cls}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+          </SwipeableViews>
+        </Switch>
       </Paper>
     </Box>
   );

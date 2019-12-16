@@ -42,7 +42,6 @@ const App = () => {
             <Route exact path={"/rooms"} render={() => <Rooms />} />
             <Route exact path={"/settings"} render={() => <Settings />} />
             <Route
-              exact
               path={"/students"}
               render={props => <Students {...props} />}
             />

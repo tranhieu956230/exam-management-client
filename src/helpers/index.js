@@ -1,3 +1,5 @@
+import XLSX from "xlsx";
+
 export const dateGenerator = year => {
   let day = Math.floor(Math.random() * 30) + 1;
   let month = Math.floor(Math.random() * 12) + 1;
@@ -29,4 +31,17 @@ const padString = (initialString, char, length) => {
     res = char + res;
   }
   return res;
+};
+
+const handleFileUpload = event => {
+  let data = event.target.files[0];
+  let reader = new FileReader();
+  reader.onload = event => {
+    data = new Uint8Array(event.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const firstSheet = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[firstSheet];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+  };
+  reader.readAsArrayBuffer(data);
 };
