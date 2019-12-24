@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import SwipeableViews from "react-swipeable-views";
+
 import { Box, Toolbar, Paper } from "@material-ui/core";
 
 import NavTabs from "components/NavTabs";
@@ -20,8 +20,16 @@ const Students = () => {
 
   const location = [
     {
-      label: "List",
+      label: "Danh sách",
       to: "/students/list"
+    },
+    {
+      label: "thêm",
+      to: "/students/add"
+    },
+    {
+      label: "thêm từ excel",
+      to: "/students/add-excel"
     }
   ];
 
@@ -31,13 +39,11 @@ const Students = () => {
       <NavTabs tabs={location} value={tab} onChange={handleChangeTab} />
       <Paper className={styles.content}>
         <Switch>
-          <SwipeableViews index={tab}>
-            <Route
-              exact
-              path={"/students/list"}
-              render={props => <ListStudent {...props} students={students} />}
-            />
-          </SwipeableViews>
+          <Route
+            exact
+            path={"/students/list"}
+            render={props => <ListStudent {...props} students={students} />}
+          />
         </Switch>
       </Paper>
     </Box>

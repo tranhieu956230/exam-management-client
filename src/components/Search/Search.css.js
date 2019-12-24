@@ -11,7 +11,7 @@ export const useStyles = makeStyles(theme => ({
     padding: "4px",
     borderRadius: "5px",
     width: "min-content",
-    marginRight: theme.spacing(6)
+
   },
 
   searchIcon: {
@@ -26,15 +26,15 @@ export const useStyles = makeStyles(theme => ({
 
   inputRoot: {
     marginLeft: theme.spacing(5),
-    width: "180px",
+    width: "250px",
     "&:hover": {
-      width: "250px"
+      width: "300px"
     },
     transition: "all .3s ease",
     transformOrigin: "center center"
   },
 
   inputFocus: {
-    width: "250px"
+    width: "300px"
   }
 }));

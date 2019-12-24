@@ -1,20 +1,18 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, lighten } from "@material-ui/core";
 
 export const useStyles = makeStyles(theme => ({
   title: {
-    flexGrow: 1
+    marginRight: "auto"
   },
   toolbar: {
     display: "flex",
     borderBottom: "1px solid #ccc"
   },
-
-  icon: {
-    position: "absolute",
-    right: theme.spacing(1),
-    display: "none"
+  highlight: {
+    color: theme.palette.primary.A400,
+    backgroundColor: lighten(theme.palette.primary.light, 0.8)
   },
-  upload: {
-    display: "none"
+  filter: {
+    marginLeft: theme.spacing(2)
   }
 }));

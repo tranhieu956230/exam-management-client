@@ -1,41 +1,45 @@
 import React from "react";
-import { IconButton, Toolbar, Tooltip, Typography } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ImportIcon from "@material-ui/icons/GetApp";
-
+import clsx from "clsx";
 import Search from "components/Search";
+import { Toolbar, Typography, IconButton, Tooltip } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import FilterIcon from "@material-ui/icons/FilterList";
 
 import { useStyles } from "./TableToolbar.css";
 
-const TableToolbar = ({ title }) => {
+const TableToolbar = ({ title, numSelected }) => {
   const styles = useStyles();
-  return (
+
+  const renderHighlight = () => {
+    return (
+      <Toolbar className={clsx(styles.toolbar, styles.highlight)}>
+        <Typography
+          variant={"subtitle1"}
+          color="inherit"
+          className={styles.title}
+        >
+          {numSelected} đã chọn
+        </Typography>
+        <IconButton>
+          <DeleteIcon />
+        </IconButton>
+      </Toolbar>
+    );
+  };
+
+  const renderNormal = () => (
     <Toolbar className={styles.toolbar}>
       <Typography variant={"h6"} color={"inherit"} className={styles.title}>
         {title}
       </Typography>
       <Search search={""} onSearch={() => {}} />
-      <div className={styles.actionMenu}>
-        <Tooltip title={"Thêm sinh viên"}>
-          <IconButton href={""} onClick={() => {}}>
-            <AddIcon />
-          </IconButton>
-        </Tooltip>
-        <input
-          accept={".xlsx"}
-          id={"upload"}
-          type={"file"}
-          className={styles.upload}
-          onChange={() => {}}
-        />
-        <label htmlFor={"upload"}>
-          <IconButton component={"span"} href={""}>
-            <ImportIcon />
-          </IconButton>
-        </label>
-      </div>
+      <IconButton className={styles.filter}>
+        <FilterIcon />
+      </IconButton>
     </Toolbar>
   );
+
+  return numSelected > 0 ? renderHighlight() : renderNormal();
 };
 
 export default TableToolbar;

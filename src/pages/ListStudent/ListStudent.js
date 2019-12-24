@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableToolbar from "components/TableToolbar";
 import CustomTableHead from "components/TableHead";
+import CustomTablePagination from "components/TablePagination";
 import {
   Paper,
   Table,
@@ -17,9 +18,9 @@ const ListStudent = ({ students }) => {
   const [sortIndex, setSortIndex] = useState(0);
   const [sortDir, setSortDir] = useState("asc");
   const [selected, setSelected] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
   const headCells = ["Mã số sinh viên", "Họ và tên", "Ngày sinh", "Lớp"];
-
-  const sortData = () => {};
 
   const handleSelectAll = () => {
     if (students.length === selected.length) setSelected([]);
@@ -46,14 +47,41 @@ const ListStudent = ({ students }) => {
     return !!value;
   };
 
+  const handleRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const filterData = data => {
+    if (!data || data.length === 0) return [];
+    let key = Object.keys(data[0])[sortIndex];
+    data.sort((a, b) => compare(a, b, key, sortDir));
+    data = data.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+
+    return data;
+  };
+
+  function compare(a, b, key, direction) {
+    let result = 0;
+    if (parseInt(a[key])) {
+      result = parseInt(a[key]) - parseInt(b[key]);
+    } else {
+      if (a[key] > b[key]) result = 1;
+      else if (a[key] < b[key]) result = -1;
+    }
+    return direction === "asc" ? result : result * -1;
+  }
+
+  const filteredData = filterData([...students]);
+
   return (
     <Paper className={styles.content}>
-      <TableToolbar
-        title={"Sinh viên"}
-        numSelected={selected.length}
-        rowCount={students.length}
-      />
-      <Table>
+      <TableToolbar title={"Sinh viên"} numSelected={selected.length} />
+      <Table stickyHeader className={styles.table}>
         <CustomTableHead
           cells={headCells}
           activeIndex={sortIndex}
@@ -64,7 +92,7 @@ const ListStudent = ({ students }) => {
           onSort={handleSort}
         />
         <TableBody>
-          {students.map(student => (
+          {filteredData.map(student => (
             <TableRow
               key={student.id}
               className={styles.row}
@@ -87,6 +115,13 @@ const ListStudent = ({ students }) => {
           ))}
         </TableBody>
       </Table>
+      <CustomTablePagination
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onChangePage={handlePageChange}
+        onChangeRowsPerPage={handleRowsPerPage}
+        rowCount={students.length}
+      />
     </Paper>
   );
 };
