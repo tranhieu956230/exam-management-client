@@ -1,2 +1,2 @@
-import Rooms from "./Rooms";
-export default Rooms;
+import Room from "./Room";
+export default Room;

@@ -2,25 +2,14 @@ import React, { useState } from "react";
 import Search from "components/Search";
 import CustomDialog from "components/CustomDialog";
 import clsx from "clsx";
-import {
-  Toolbar,
-  Typography,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-  Button
-} from "@material-ui/core";
+import { Toolbar, Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterIcon from "@material-ui/icons/FilterList";
 
 import { useStyles } from "./TableToolbar.css";
 
-const TableToolbar = ({ title, numSelected }) => {
+const TableToolbar = ({ title, numSelected, onCreate }) => {
   const styles = useStyles();
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
 
   const handleCloseDialog = () => {
     setDeleteOpen(false);
@@ -28,14 +17,6 @@ const TableToolbar = ({ title, numSelected }) => {
 
   const handleAcceptDialog = () => {
     setDeleteOpen(false);
-  };
-
-  const handleFilterClose = () => {
-    setFilterOpen(false);
-  };
-
-  const handleAcceptFilter = () => {
-    setFilterOpen(false);
   };
 
   const renderHighlight = () => {
@@ -61,9 +42,14 @@ const TableToolbar = ({ title, numSelected }) => {
         {title}
       </Typography>
       <Search search={""} onSearch={() => {}} />
-      <IconButton className={styles.filter} onClick={() => setFilterOpen(true)}>
-        <FilterIcon />
-      </IconButton>
+      <Button
+        variant={"outlined"}
+        color={"primary"}
+        className={styles.button}
+        onClick={onCreate}
+      >
+        Tạo mới
+      </Button>
     </Toolbar>
   );
 
@@ -77,19 +63,6 @@ const TableToolbar = ({ title, numSelected }) => {
         title={"Xác nhận xóa"}
         text={`Xóa ${numSelected} sinh viên khỏi hệ thống? Hành động này sẽ xóa toàn bộ ca thi mà sinh viên đã đăng kí.`}
       />
-      <Dialog open={filterOpen} onClose={handleFilterClose}>
-        <DialogTitle>Áp dụng bộ lọc</DialogTitle>
-        <DialogContent>
-          <DialogActions>
-            <Button color={"primary"} onClick={handleFilterClose}>
-              Hủy
-            </Button>
-            <Button color={"primary"} onClick={handleAcceptFilter}>
-              Chấp nhận
-            </Button>
-          </DialogActions>
-        </DialogContent>
-      </Dialog>
     </React.Fragment>
   );
 };

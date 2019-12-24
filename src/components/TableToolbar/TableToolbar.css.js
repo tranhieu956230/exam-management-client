@@ -12,7 +12,7 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.A400,
     backgroundColor: lighten(theme.palette.primary.light, 0.8)
   },
-  filter: {
+  button: {
     marginLeft: theme.spacing(2)
   }
 }));

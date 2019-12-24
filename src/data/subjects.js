@@ -1,6 +1,6 @@
 const subjects = [];
 for (let i = 0; i < Math.floor(Math.random() * 100); i++) {
-  const unique = Math.floor(Math.random() * 100);
+  const unique = Math.floor(Math.random() * 1000000);
   subjects.push({
     id: unique,
     name: `Subject ${unique}`,

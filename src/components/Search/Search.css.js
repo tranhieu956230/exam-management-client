@@ -11,7 +11,7 @@ export const useStyles = makeStyles(theme => ({
     padding: "4px",
     borderRadius: "5px",
     width: "min-content",
-
+    position: "relative"
   },
 
   searchIcon: {
@@ -24,8 +24,19 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.grey[700]
   },
 
+  filter: {
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    top: "50%",
+    transform: "translateY(-50%)",
+    right: "2%"
+  },
+
   inputRoot: {
     marginLeft: theme.spacing(5),
+    marginRight: theme.spacing(5),
+    justifyContent: "space-between",
     width: "250px",
     "&:hover": {
       width: "300px"

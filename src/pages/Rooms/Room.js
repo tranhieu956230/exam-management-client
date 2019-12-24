@@ -13,12 +13,12 @@ import {
 import TableToolbar from "components/TableToolbar";
 import CustomTableHead from "components/TableHead";
 import CustomTablePagination from "components/TablePagination";
-import CreateSubject from "components/CreateSubject";
+import CreateRoom from "components/CreateRoom";
 
-import { useStyles } from "./Subjects.css";
-import { subjects } from "data";
+import { useStyles } from "./Room.css";
+import { rooms } from "data";
 
-const Subjects = () => {
+const Room = () => {
   const styles = useStyles();
   const [sortIndex, setSortIndex] = useState(0);
   const [sortDir, setSortDir] = useState("asc");
@@ -27,17 +27,11 @@ const Subjects = () => {
   const [page, setPage] = useState(0);
   const [formOpen, setFormOpen] = useState(false);
 
-  const headCells = [
-    "Mã học phần",
-    "Tên môn học",
-    "Giảng viên",
-    "Số tín chỉ",
-    "Số sinh viên"
-  ];
+  const headCells = ["Phòng", "Toà nhà", "Số máy", "Tình trạng"];
 
   const handleSelectAll = () => {
-    if (subjects.length === selected.length) setSelected([]);
-    else setSelected([...subjects]);
+    if (rooms.length === selected.length) setSelected([]);
+    else setSelected([...rooms]);
   };
 
   const handleSort = index => {
@@ -93,14 +87,14 @@ const Subjects = () => {
     setFormOpen(false);
   };
 
-  const filteredData = filterData([...subjects]);
+  const filteredData = filterData([...rooms]);
 
   return (
     <Box className={styles.root}>
       <Toolbar />
       <Paper className={styles.content}>
         <TableToolbar
-          title={"Môn học"}
+          title={"Phòng thi"}
           numSelected={selected.length}
           onCreate={() => setFormOpen(true)}
         />
@@ -109,32 +103,31 @@ const Subjects = () => {
             cells={headCells}
             activeIndex={sortIndex}
             numSelected={selected.length}
-            rowCount={subjects.length}
+            rowCount={rooms.length}
             sortDirection={sortDir}
             onSelectAll={handleSelectAll}
             onSort={handleSort}
           />
           <TableBody>
-            {filteredData.map(subject => (
+            {filteredData.map(room => (
               <TableRow
-                key={subject.id}
+                key={room.id}
                 className={styles.row}
                 hover
-                selected={isChecked(subject.id)}
-                onClick={() => handleSelect(subject)}
+                selected={isChecked(room.id)}
+                onClick={() => handleSelect(room)}
               >
                 <TableCell padding={"checkbox"}>
                   <Checkbox
                     color={"primary"}
-                    checked={isChecked(subject.id)}
-                    onChange={() => handleSelect(subject)}
+                    checked={isChecked(room.id)}
+                    onChange={() => handleSelect(room)}
                   />
                 </TableCell>
-                <TableCell>{subject.id}</TableCell>
-                <TableCell>{subject.name}</TableCell>
-                <TableCell>{subject.lecturer}</TableCell>
-                <TableCell>{subject.credit}</TableCell>
-                <TableCell>{subject.noParticipants}</TableCell>
+                <TableCell>{room.room}</TableCell>
+                <TableCell>{room.building}</TableCell>
+                <TableCell>{room.noPc}</TableCell>
+                <TableCell>{room.condition}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -144,9 +137,9 @@ const Subjects = () => {
           rowsPerPage={rowsPerPage}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPage}
-          rowCount={subjects.length}
+          rowCount={rooms.length}
         />
-        <CreateSubject
+        <CreateRoom
           open={formOpen}
           onClose={() => setFormOpen(false)}
           onAccept={handleCreateSubject}
@@ -156,4 +149,4 @@ const Subjects = () => {
   );
 };
 
-export default Subjects;
+export default Room;

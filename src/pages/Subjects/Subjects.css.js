@@ -8,9 +8,19 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column"
   },
-
+  row: {
+    position: "relative",
+    "&:hover $icon": {
+      display: "initial"
+    }
+  },
+  toolbar: {},
+  table: {},
   content: {
     flexGrow: "1",
-    height: "100%"
+    height: "100%",
+    display: "grid",
+    gridTemplateRows: "max-content 1fr max-content",
+    overflowY: "auto"
   }
 }));

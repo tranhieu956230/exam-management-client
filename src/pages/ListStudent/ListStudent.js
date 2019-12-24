@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TableToolbar from "components/TableToolbar";
 import CustomTableHead from "components/TableHead";
 import CustomTablePagination from "components/TablePagination";
+import CreateStudentDialog from "components/CreateStudent";
 import {
   Paper,
   Table,
@@ -20,6 +21,7 @@ const ListStudent = ({ students }) => {
   const [selected, setSelected] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
+  const [formOpen, setFormOpen] = useState(false);
   const headCells = ["Mã số sinh viên", "Họ và tên", "Ngày sinh", "Lớp"];
 
   const handleSelectAll = () => {
@@ -65,7 +67,7 @@ const ListStudent = ({ students }) => {
     return data;
   };
 
-  function compare(a, b, key, direction) {
+  const compare = (a, b, key, direction) => {
     let result = 0;
     if (parseInt(a[key])) {
       result = parseInt(a[key]) - parseInt(b[key]);
@@ -74,13 +76,21 @@ const ListStudent = ({ students }) => {
       else if (a[key] < b[key]) result = -1;
     }
     return direction === "asc" ? result : result * -1;
-  }
+  };
+
+  const handleCreateStudent = () => {
+    setFormOpen(false);
+  };
 
   const filteredData = filterData([...students]);
 
   return (
     <Paper className={styles.content}>
-      <TableToolbar title={"Sinh viên"} numSelected={selected.length} />
+      <TableToolbar
+        title={"Sinh viên"}
+        numSelected={selected.length}
+        onCreate={() => setFormOpen(true)}
+      />
       <Table stickyHeader className={styles.table}>
         <CustomTableHead
           cells={headCells}
@@ -121,6 +131,11 @@ const ListStudent = ({ students }) => {
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleRowsPerPage}
         rowCount={students.length}
+      />
+      <CreateStudentDialog
+        open={formOpen}
+        onClose={() => setFormOpen(false)}
+        onAccept={handleCreateStudent}
       />
     </Paper>
   );

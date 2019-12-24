@@ -1,5 +1,5 @@
-import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 
 import Header from "components/Header";
 import Subjects from "pages/Subjects";
@@ -37,7 +37,6 @@ const App = () => {
         <div className={styles.root}>
           <NavBar />
           <Switch>
-            <Route exact path={"/"} render={() => <h1>Home</h1>} />
             <Route exact path={"/subjects"} render={() => <Subjects />} />
             <Route exact path={"/exams"} render={() => <Exams />} />
             <Route exact path={"/rooms"} render={() => <Rooms />} />
@@ -47,6 +46,7 @@ const App = () => {
               path={"/students"}
               render={props => <Students {...props} />}
             />
+            <Route path={"/"} render={props => <Redirect to={"/students"} />} />
           </Switch>
         </div>
       </BrowserRouter>
