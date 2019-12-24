@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 
 import Header from "components/Header";
 import Subjects from "pages/Subjects";
-import Exams from "pages/Exams";
+import Exam from "pages/Exams";
 import Rooms from "pages/Rooms";
 import Settings from "pages/Settings";
 import Students from "pages/Students";
@@ -38,7 +38,7 @@ const App = () => {
           <NavBar />
           <Switch>
             <Route exact path={"/subjects"} render={() => <Subjects />} />
-            <Route exact path={"/exams"} render={() => <Exams />} />
+            <Route exact path={"/exams"} render={() => <Exam />} />
             <Route exact path={"/rooms"} render={() => <Rooms />} />
             <Route exact path={"/settings"} render={() => <Settings />} />
             <Route exact path={"/import"} render={() => <ImportFromExcel />} />

@@ -6,7 +6,7 @@ for (let i = 0; i < Math.floor(Math.random() * 100); i++) {
   exams.push({
     id: unique,
     subject: `Subject ${unique}`,
-    subjectID: `SubjectID ${unique}`,
+    subjectID: `Mã học phần ${unique}`,
     startDate: dateGenerator(2019),
     endDate: dateGenerator(2019),
     noShift: Math.floor(Math.random() * 10)

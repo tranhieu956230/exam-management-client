@@ -48,7 +48,9 @@ const ImportStudentExcel = () => {
         </div>
       </div>
       <div className={styles.right}>
-        <div className={styles.reviewImport}></div>
+        <div className={styles.reviewImport}>
+
+        </div>
       </div>
     </div>
   );
