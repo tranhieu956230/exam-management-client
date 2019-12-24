@@ -5,6 +5,8 @@ import { Box, Toolbar, Paper } from "@material-ui/core";
 
 import NavTabs from "components/NavTabs";
 import ListStudent from "pages/ListStudent";
+import CreateStudent from "pages/CreateStudent";
+import ImportStudent from "pages/ImportFromExcel";
 
 import { useStyles } from "./Students.css";
 
@@ -26,10 +28,6 @@ const Students = () => {
     {
       label: "thêm",
       to: "/students/add"
-    },
-    {
-      label: "thêm từ excel",
-      to: "/students/add-excel"
     }
   ];
 
@@ -43,6 +41,11 @@ const Students = () => {
             exact
             path={"/students/list"}
             render={props => <ListStudent {...props} students={students} />}
+          />
+          <Route
+            exact
+            path={"/students/add"}
+            render={props => <CreateStudent {...props} />}
           />
         </Switch>
       </Paper>

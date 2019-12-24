@@ -7,11 +7,12 @@ import Exams from "pages/Exams";
 import Rooms from "pages/Rooms";
 import Settings from "pages/Settings";
 import Students from "pages/Students";
+import ImportFromExcel from "pages/ImportFromExcel";
 
-import { CssBaseline, Toolbar } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import { makeStyles, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
-import NavBar from "../../components/NavBar";
+import NavBar from "components/NavBar";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,6 +42,7 @@ const App = () => {
             <Route exact path={"/exams"} render={() => <Exams />} />
             <Route exact path={"/rooms"} render={() => <Rooms />} />
             <Route exact path={"/settings"} render={() => <Settings />} />
+            <Route exact path={"/import"} render={() => <ImportFromExcel />} />
             <Route
               path={"/students"}
               render={props => <Students {...props} />}
