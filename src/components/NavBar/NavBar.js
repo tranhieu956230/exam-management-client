@@ -15,6 +15,7 @@ import AlarmIcon from "@material-ui/icons/Alarm";
 import RoomIcon from "@material-ui/icons/MeetingRoom";
 import SettingsIcon from "@material-ui/icons/Settings";
 import UploadIcon from "@material-ui/icons/Publish";
+import SchoolIcon from "@material-ui/icons/School";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,7 +32,7 @@ const NavBar = () => {
 
   useEffect(() => {
     for (let i = 0; i < pages.length; i++) {
-      let route = window.location.href.split("/")[3];
+      let route = window.location.href.split("/")[4];
       if (pages[i].path.includes(route)) {
         setActive(i);
       }
@@ -73,32 +74,32 @@ const NavBar = () => {
 const pages = [
   {
     title: "Sinh viên",
-    path: "/students",
+    path: "/ad/student",
     icon: <PersonIcon />
   },
   {
     title: "Môn học",
-    path: "/subjects",
+    path: "/ad/subject",
     icon: <BookIcon />
   },
   {
     title: "Kỳ thi",
-    path: "/exams",
+    path: "/ad/exam",
+    icon: <SchoolIcon />
+  },
+  {
+    title: "Ca thi",
+    path: "/ad/shift",
     icon: <AlarmIcon />
   },
   {
     title: "Phòng thi",
-    path: "/rooms",
+    path: "/ad/room",
     icon: <RoomIcon />
   },
   {
-    title: "Nhập liệu từ Excel",
-    path: "/import",
-    icon: <UploadIcon />
-  },
-  {
     title: "Cài đặt",
-    path: "/settings",
+    path: "/ad/setting",
     icon: <SettingsIcon />
   }
 ];

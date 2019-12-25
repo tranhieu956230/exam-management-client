@@ -14,7 +14,7 @@ import {
   Box
 } from "@material-ui/core";
 
-import { useStyles } from "./Exam.css";
+import { useStyles } from "./Shift.css";
 import { exams } from "data";
 
 const Exam = () => {

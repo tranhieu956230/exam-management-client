@@ -28,7 +28,7 @@ const CustomTableHead = ({
           />
         </TableCell>
         {cells.map((label, index) => (
-          <TableCell>
+          <TableCell key={index}>
             <TableSortLabel
               active={activeIndex === index}
               direction={sortDirection}
