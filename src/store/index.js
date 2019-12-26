@@ -2,8 +2,8 @@ import React, { useReducer } from "react";
 
 const initialState = {
   authen: {
-    isLoggedIn: false,
-    role: null
+    isLoggedIn: true,
+    role: 0
   }
 };
 

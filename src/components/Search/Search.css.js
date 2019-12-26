@@ -47,5 +47,6 @@ export const useStyles = makeStyles(theme => ({
 
   inputFocus: {
     width: "300px"
-  }
+  },
+
 }));

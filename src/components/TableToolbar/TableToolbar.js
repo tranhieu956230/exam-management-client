@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import Search from "components/Search";
 import CustomDialog from "components/CustomDialog";
-import clsx from "clsx";
+import FilterPopover from "components/FilterPopover";
 import { Toolbar, Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -10,6 +11,19 @@ import { useStyles } from "./TableToolbar.css";
 const TableToolbar = ({ title, numSelected, onCreate }) => {
   const styles = useStyles();
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [checkbox, setCheckbox] = useState({
+    id: false,
+    name: true,
+    dob: false,
+    cls: false
+  });
+  const fields = [
+    ["id", "Mã số sinh viên"],
+    ["name", "Họ và tên"],
+    ["dob", "Ngày sinh"],
+    ["cls", "Lớp"]
+  ];
 
   const handleCloseDialog = () => {
     setDeleteOpen(false);
@@ -17,6 +31,18 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
 
   const handleAcceptDialog = () => {
     setDeleteOpen(false);
+  };
+
+  const handleFilterClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpenFilter = ev => {
+    setAnchorEl(ev.currentTarget);
+  };
+
+  const handleCheckbox = field => event => {
+    setCheckbox({ ...checkbox, [field]: event.target.checked });
   };
 
   const renderHighlight = () => {
@@ -41,7 +67,7 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
       <Typography variant={"h6"} color={"inherit"} className={styles.title}>
         {title}
       </Typography>
-      <Search search={""} onSearch={() => {}} />
+      <Search search={""} onSearch={() => {}} onFilter={handleOpenFilter}/>
       <Button
         variant={"outlined"}
         color={"primary"}
@@ -62,6 +88,13 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
         onClose={handleCloseDialog}
         title={"Xác nhận xóa"}
         text={`Xóa ${numSelected} sinh viên khỏi hệ thống? Hành động này sẽ xóa toàn bộ ca thi mà sinh viên đã đăng kí.`}
+      />
+      <FilterPopover
+        anchorEl={anchorEl}
+        onFilterClose={handleFilterClose}
+        fields={fields}
+        checkbox={checkbox}
+        onCheckboxChange={handleCheckbox}
       />
     </React.Fragment>
   );

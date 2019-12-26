@@ -1,7 +1,7 @@
 export const logIn = () => {
   return new Promise((resolve, reject) => {
     let result = {
-      role: Math.floor(Math.random() * 2),
+      role: 0,
       isLoggedIn: true
     };
     resolve(result);
