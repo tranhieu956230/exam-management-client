@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -14,26 +14,22 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
-import { useStyles } from "./CreateStudent.css";
+import { useStyles } from "./StudentDialog.css";
 import { clss } from "data/students";
 
-const CreateStudentDialog = ({ open, onClose, onAccept }) => {
+const StudentDialog = ({ open, onClose, onAccept, onFormChange, student }) => {
   const styles = useStyles();
-  const [form, setForm] = useState({
-    dob: new Date(),
-    name: "",
-    id: "",
-    cls: ""
-  });
-
-  const { id, dob, cls, name } = form;
-  const handleFormChange = key => event => {
-    setForm({ ...form, [key]: event.target.value });
-  };
+  const { id, dob, cls, name } = student;
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Dialog className={styles.container} open={open} onClose={onClose} fullWidth maxWidth={"xs"}>
+      <Dialog
+        className={styles.container}
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth={"xs"}
+      >
         <DialogTitle>Tạo mới sinh viên</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -45,14 +41,16 @@ const CreateStudentDialog = ({ open, onClose, onAccept }) => {
               label={"Mã sinh viên"}
               value={id}
               fullWidth
-              onChange={handleFormChange("id")}
+              onChange={event => onFormChange("id", event.target.value, event)}
               className={styles.text}
             />
             <TextField
               label={"Họ và tên"}
               value={name}
               fullWidth
-              onChange={handleFormChange("name")}
+              onChange={event =>
+                onFormChange("name", event.target.value, event)
+              }
               className={styles.text}
             />
             <KeyboardDatePicker
@@ -60,14 +58,14 @@ const CreateStudentDialog = ({ open, onClose, onAccept }) => {
               label="Ngày sinh"
               format="dd/MM/yyyy"
               value={dob}
-              onChange={date => setForm({ ...form, dob: date })}
+              onChange={date => onFormChange("name", date, null)}
               className={styles.text}
             />
             <Autocomplete
               options={clss}
               getOptionLabel={option => option}
               onChange={(event, newValue) =>
-                setForm({ ...form, cls: newValue })
+                onFormChange("cls", newValue, event)
               }
               value={cls}
               renderInput={params => (
@@ -89,4 +87,4 @@ const CreateStudentDialog = ({ open, onClose, onAccept }) => {
   );
 };
 
-export default CreateStudentDialog;
+export default StudentDialog;

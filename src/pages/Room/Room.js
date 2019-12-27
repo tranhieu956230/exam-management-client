@@ -10,7 +10,7 @@ import {
   Box
 } from "@material-ui/core";
 
-import TableToolbar from "components/TableToolbar";
+import TableToolbar from "components/StudentTableToolbar";
 import CustomTableHead from "components/TableHead";
 import CustomTablePagination from "components/TablePagination";
 import CreateRoom from "components/CreateRoom";

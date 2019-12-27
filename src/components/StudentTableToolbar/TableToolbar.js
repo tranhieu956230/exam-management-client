@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useStyles } from "./TableToolbar.css";
 
-const TableToolbar = ({ title, numSelected, onCreate }) => {
+const TableToolbar = ({ title, numSelected, onCreate, onImport }) => {
   const styles = useStyles();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,6 +18,7 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
     dob: false,
     cls: false
   });
+
   const fields = [
     ["id", "Mã số sinh viên"],
     ["name", "Họ và tên"],
@@ -67,7 +68,7 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
       <Typography variant={"h6"} color={"inherit"} className={styles.title}>
         {title}
       </Typography>
-      <Search search={""} onSearch={() => {}} onFilter={handleOpenFilter}/>
+      <Search search={""} onSearch={() => {}} onFilter={handleOpenFilter} />
       <Button
         variant={"outlined"}
         color={"primary"}
@@ -76,6 +77,17 @@ const TableToolbar = ({ title, numSelected, onCreate }) => {
       >
         Tạo mới
       </Button>
+      <input type="file" id="studentExcel" className={styles.uploadInput} />
+      <label htmlFor={"studentExcel"}>
+        <Button
+          onClick={onImport}
+          variant={"outlined"}
+          className={`${styles.button} ${styles.buttonImport}`}
+          component={"span"}
+        >
+          Import
+        </Button>
+      </label>
     </Toolbar>
   );
 

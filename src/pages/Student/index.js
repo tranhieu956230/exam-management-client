@@ -1,2 +1,2 @@
-import Students from "./Students";
-export default Students;
+import Student from "./Student";
+export default Student;

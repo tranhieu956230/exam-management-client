@@ -1,4 +1,5 @@
 import { makeStyles, lighten } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
 
 export const useStyles = makeStyles(theme => ({
   title: {
@@ -14,5 +15,18 @@ export const useStyles = makeStyles(theme => ({
   },
   button: {
     marginLeft: theme.spacing(2)
-  }
+  },
+  uploadInput: {
+    display: "none"
+  },
+  buttonImport: {
+    color: green[500],
+    borderColor: green[300],
+
+    "&:hover": {
+      borderColor: green[500],
+      backgroundColor: lighten(green[100], 0.7)
+    }
+  },
+
 }));

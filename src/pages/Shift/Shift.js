@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import TableToolbar from "components/TableToolbar";
+import TableToolbar from "components/StudentTableToolbar";
 import CustomTableHead from "components/TableHead";
 import CustomTablePagination from "components/TablePagination";
-import CreateStudentDialog from "components/CreateStudent";
+import CreateStudentDialog from "components/StudentDialog";
 import {
   Paper,
   Table,

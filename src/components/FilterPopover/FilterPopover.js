@@ -41,8 +41,9 @@ const FilterPopover = ({
         Áp dụng bộ lọc
       </Typography>
       <FormGroup className={styles.formGroup}>
-        {fields.map(([field, label]) => (
+        {fields.map(([field, label], index) => (
           <FormControlLabel
+            key={index}
             className={styles.formItem}
             control={
               <Checkbox
