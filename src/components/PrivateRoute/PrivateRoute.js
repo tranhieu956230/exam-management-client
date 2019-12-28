@@ -4,12 +4,13 @@ import { GlobalContext } from "store";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { globalState } = useContext(GlobalContext);
-  const { authen } = globalState;
+  const { auth } = globalState;
+  console.log(auth);
   return (
     <Route
       {...rest}
       render={props => {
-        return authen.isLoggedIn ? (
+        return auth.isLoggedIn ? (
           <Component {...props} />
         ) : (
           <Redirect to={"/login"} />

@@ -22,11 +22,17 @@ const App = ({ history }) => {
   const { globalState, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
-    let jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      logIn().then(result => {
-        dispatch({ type: "SET_AUTHEN", payload: result });
+    let auth = localStorage.getItem("jwt");
+    let role = localStorage.getItem("role");
+    if (auth) {
+      dispatch({
+        type: "SET_AUTH",
+        payload: {
+          isLoggedIn: true
+        }
       });
+      if (role === "admin") history.push("/ad/student");
+      else history.push("/st/shift");
     }
   }, []);
 

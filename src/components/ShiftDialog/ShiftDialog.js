@@ -10,26 +10,29 @@ import {
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
+  KeyboardTimePicker
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
-import { useStyles } from "./StudentDialog.css";
+import { useStyles } from "./ShiftDialog.css";
 import { getClass } from "../../apis/student";
 
-const StudentDialog = ({ open, onClose, onAccept, onFormChange, student }) => {
+let subjects = ["Toán rời rạc", "Xác suất thống kê", "Quản lí dự án phần mềm"];
+
+const StudentDialog = ({ open, onClose, onAccept, onFormChange, shift }) => {
   const styles = useStyles();
   const [clss, setClss] = useState([]);
-  const { id, dob, cls, name } = student;
+  const { subject, timeStart, timeEnd, date } = shift;
 
   useEffect(() => {
-    getClass().then(result => {
-      setClss([...result.data.class]);
-    });
+    // getClass().then(result => {
+    //   setClss([...result.data.class]);
+    // });
   }, []);
 
   const handleAccept = () => {
-    onAccept(id, dob, cls, name);
+    // onAccept(id, dob, cls, name);
   };
 
   return (
@@ -41,47 +44,44 @@ const StudentDialog = ({ open, onClose, onAccept, onFormChange, student }) => {
         fullWidth
         maxWidth={"xs"}
       >
-        <DialogTitle>Tạo mới sinh viên</DialogTitle>
+        <DialogTitle>Tạo ca thi</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Điền thông tin sinh viên vào form dưới đây
+            Điền thông tin ca thi vào form dưới đây
           </DialogContentText>
           <form className={styles.form}>
-            <TextField
-              autoFocus={true}
-              label={"Mã sinh viên"}
-              value={id}
-              fullWidth
-              onChange={event => onFormChange("id", event.target.value, event)}
+            <Autocomplete
+              options={subjects}
+              getOptionLabel={option => option}
+              onChange={(event, newValue) =>
+                onFormChange("subject", newValue, event)
+              }
+              value={subject}
+              renderInput={params => (
+                <TextField {...params} label={"Môn thi"} fullWidth />
+              )}
+            />
+            <KeyboardTimePicker
+              label="Thời gian bắt đầu"
+              onChange={time => onFormChange("timeStart", time, null)}
+              value={timeStart}
+              variant={"inline"}
               className={styles.text}
             />
-            <TextField
-              label={"Họ và tên"}
-              value={name}
-              fullWidth
-              onChange={event =>
-                onFormChange("name", event.target.value, event)
-              }
+            <KeyboardTimePicker
+              label="Thời gian kết thúc"
+              value={timeEnd}
+              variant={"inline"}
+              onChange={time => onFormChange("timeEnd", time, null)}
               className={styles.text}
             />
             <KeyboardDatePicker
               variant={"inline"}
-              label="Ngày sinh"
+              label="Ngày thi"
               format="dd/MM/yyyy"
-              value={dob}
-              onChange={date => onFormChange("dob", date, null)}
+              value={date}
+              onChange={date => onFormChange("date", date, null)}
               className={styles.text}
-            />
-            <Autocomplete
-              options={clss}
-              getOptionLabel={option => option}
-              onChange={(event, newValue) =>
-                onFormChange("cls", newValue, event)
-              }
-              value={cls}
-              renderInput={params => (
-                <TextField {...params} label={"Lớp"} fullWidth />
-              )}
             />
           </form>
         </DialogContent>

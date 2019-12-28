@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import TableToolbar from "components/StudentTableToolbar";
+import TableToolbar from "components/ShiftTableToolbar";
 import CustomTableHead from "components/TableHead";
 import CustomTablePagination from "components/TablePagination";
-import CreateStudentDialog from "components/StudentDialog";
+import ShiftDialog from "components/ShiftDialog";
 import {
   Paper,
   Table,
@@ -17,7 +17,7 @@ import {
 import { useStyles } from "./Shift.css";
 import { exams } from "data";
 
-const Exam = () => {
+const Exam = (props) => {
   const styles = useStyles();
   const [sortIndex, setSortIndex] = useState(0);
   const [sortDir, setSortDir] = useState("asc");
@@ -25,12 +25,19 @@ const Exam = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [formOpen, setFormOpen] = useState(false);
+
+  const [form, setForm] = useState({
+    timeStart: null,
+    timeEnd: null,
+    subject: "",
+    date: null
+  });
+
   const headCells = [
-    "Mã học phần",
-    "Tên môn học",
+    "Môn học",
+    "Ngày thi",
     "Thời gian bắt đầu",
-    "Thời gian kết thúc",
-    "Số ca thi"
+    "Thời gian kết thúc"
   ];
 
   const handleSelectAll = () => {
@@ -87,20 +94,26 @@ const Exam = () => {
     return direction === "asc" ? result : result * -1;
   };
 
-  const handleCreateStudent = () => {
-    setFormOpen(false);
+  const filteredData = filterData([...exams]);
+
+  const handleFormChange = (field, value, ev) => {
+    setForm({ ...form, [field]: value });
   };
 
-  const filteredData = filterData([...exams]);
+  const handleCreateShift = () => {
+    console.log(form);
+    setFormOpen(false);
+  };
 
   return (
     <Box className={styles.root}>
       <Toolbar />
       <Paper className={styles.content}>
         <TableToolbar
-          title={"Kỳ thi"}
+          title={"Ca thi"}
           numSelected={selected.length}
           onCreate={() => setFormOpen(true)}
+          std={!!props.std}
         />
         <Table stickyHeader className={styles.table}>
           <CustomTableHead
@@ -129,10 +142,9 @@ const Exam = () => {
                   />
                 </TableCell>
                 <TableCell>{exam.subject}</TableCell>
-                <TableCell>{exam.subjectID}</TableCell>
-                <TableCell>{exam.startDate}</TableCell>
-                <TableCell>{exam.endDate}</TableCell>
-                <TableCell>{exam.noShift}</TableCell>
+                <TableCell>{exam.date}</TableCell>
+                <TableCell>{exam.timeStart}</TableCell>
+                <TableCell>{exam.timeEnd}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -144,10 +156,12 @@ const Exam = () => {
           onChangeRowsPerPage={handleRowsPerPage}
           rowCount={exams.length}
         />
-        <CreateStudentDialog
+        <ShiftDialog
           open={formOpen}
           onClose={() => setFormOpen(false)}
-          onAccept={handleCreateStudent}
+          onAccept={handleCreateShift}
+          onFormChange={handleFormChange}
+          shift={form}
         />
       </Paper>
     </Box>

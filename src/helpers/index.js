@@ -33,15 +33,16 @@ const padString = (initialString, char, length) => {
   return res;
 };
 
-const handleFileUpload = event => {
-  let data = event.target.files[0];
-  let reader = new FileReader();
-  reader.onload = event => {
-    data = new Uint8Array(event.target.result);
-    const workbook = XLSX.read(data, { type: "array" });
-    const firstSheet = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[firstSheet];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: true });
-  };
-  reader.readAsArrayBuffer(data);
+export const pad0 = str => {
+  if (Number(str) < 10) return `0${str}`;
+  return str;
+};
+
+export const timeGenerator = () => {
+  let cur = new Date();
+  let time = cur.getTime();
+  let date = new Date(time + Math.floor(Math.random() * 10000000 + 1000));
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  return `${hours}:${minutes}:00`;
 };

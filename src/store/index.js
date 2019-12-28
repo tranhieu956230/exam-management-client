@@ -1,9 +1,11 @@
 import React, { useReducer } from "react";
 
 const initialState = {
-  authen: {
-    isLoggedIn: true,
-    role: 0
+  auth: {
+    isLoggedIn: false,
+    admin: null,
+    name: "Hiếu",
+    username: ""
   }
 };
 
@@ -12,11 +14,12 @@ const GlobalContext = React.createContext(initialState);
 const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
-      case "SET_AUTHEN":
+      case "SET_AUTH":
         return {
           ...state,
-          authen: {
-            ...action.payload
+          auth: {
+            ...state.auth,
+            ...action.payload,
           }
         };
       default:

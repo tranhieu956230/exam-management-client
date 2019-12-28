@@ -5,11 +5,11 @@ import CustomDialog from "components/CustomDialog";
 import FilterPopover from "components/FilterPopover";
 import { Toolbar, Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import SaveIcon from "@material-ui/icons/Done";
 
-import { useStyles } from "./TableToolbar.css";
-import XLSX from "xlsx";
+import { useStyles } from "./ShiftTableToolbar.css";
 
-const TableToolbar = ({ title, numSelected, onCreate, onImport }) => {
+const TableToolbar = ({ title, numSelected, onCreate, onImport, std }) => {
   const styles = useStyles();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -57,9 +57,16 @@ const TableToolbar = ({ title, numSelected, onCreate, onImport }) => {
         >
           {numSelected} đã chọn
         </Typography>
-        <IconButton onClick={() => setDeleteOpen(true)}>
-          <DeleteIcon />
-        </IconButton>
+
+        {std ? (
+          <IconButton>
+            <SaveIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => setDeleteOpen(true)}>
+            <DeleteIcon />
+          </IconButton>
+        )}
       </Toolbar>
     );
   };
@@ -78,12 +85,7 @@ const TableToolbar = ({ title, numSelected, onCreate, onImport }) => {
       >
         Tạo mới
       </Button>
-      <input
-        type="file"
-        id="studentExcel"
-        className={styles.uploadInput}
-        onChange={onImport}
-      />
+      <input type="file" id="studentExcel" className={styles.uploadInput} />
       <label htmlFor={"studentExcel"}>
         <Button
           onClick={onImport}
@@ -100,20 +102,6 @@ const TableToolbar = ({ title, numSelected, onCreate, onImport }) => {
   return (
     <React.Fragment>
       {numSelected > 0 ? renderHighlight() : renderNormal()}
-      <CustomDialog
-        open={deleteOpen}
-        onAccept={handleAcceptDialog}
-        onClose={handleCloseDialog}
-        title={"Xác nhận xóa"}
-        text={`Xóa ${numSelected} sinh viên khỏi hệ thống? Hành động này sẽ xóa toàn bộ ca thi mà sinh viên đã đăng kí.`}
-      />
-      <FilterPopover
-        anchorEl={anchorEl}
-        onFilterClose={handleFilterClose}
-        fields={fields}
-        checkbox={checkbox}
-        onCheckboxChange={handleCheckbox}
-      />
     </React.Fragment>
   );
 };

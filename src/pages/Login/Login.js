@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { Button, TextField, Box, Typography } from "@material-ui/core";
 
@@ -9,15 +9,34 @@ import VNULogo from "images/logo.png";
 
 const Login = ({ history }) => {
   const styles = useStyles();
+  const [form, setForm] = useState({
+    username: "",
+    password: ""
+  });
+  const { username, password } = form;
+
   const { dispatch } = useContext(GlobalContext);
 
-  const handleLogin = () => {
-    logIn().then(result => {
-      dispatch({ type: "SET_AUTHEN", payload: result });
-      localStorage.setItem("jwt", "test");
-      let location = result.role === 0 ? "/ad/student" : "/st";
-      history.push(location);
-    });
+  const handleLogin = async () => {
+    const response = await logIn(username, password);
+    if (response.code === 200) {
+      localStorage.setItem("jwt", response["data"]["jwt"]);
+      localStorage.setItem(
+        "role",
+        response["data"]["admin"] ? "admin" : "student"
+      );
+      dispatch({
+        type: "SET_AUTH",
+        payload: { isLoggedIn: true, admin: response.data.admin }
+      });
+      if (response.data.admin) {
+        history.push("/ad/student");
+      } else history.push("/st");
+    }
+  };
+
+  const handleFormChange = field => event => {
+    setForm({ ...form, [field]: event.target.value });
   };
 
   return (
@@ -28,8 +47,19 @@ const Login = ({ history }) => {
           Đăng nhập
         </Typography>
         <form className={styles.form}>
-          <TextField variant={"outlined"} label={"Tài khoản"} />
-          <TextField variant={"outlined"} label={"Mật khẩu"} />
+          <TextField
+            variant={"outlined"}
+            label={"Tài khoản"}
+            value={username}
+            onChange={handleFormChange("username")}
+          />
+          <TextField
+            variant={"outlined"}
+            label={"Mật khẩu"}
+            onChange={handleFormChange("password")}
+            value={password}
+            type={"password"}
+          />
         </form>
         <Button
           variant={"contained"}

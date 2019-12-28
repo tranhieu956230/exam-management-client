@@ -6,7 +6,7 @@ import {
   Checkbox,
   TableSortLabel
 } from "@material-ui/core";
-import {useStyles} from "./TableHead.css";
+import { useStyles } from "./TableHead.css";
 
 const CustomTableHead = ({
   cells,
@@ -41,7 +41,9 @@ const CustomTableHead = ({
             </TableSortLabel>
           </TableCell>
         ))}
-        {action ? <TableCell padding={"checkbox"} className={styles.action} /> : null}
+        {action ? (
+          <TableCell padding={"checkbox"} className={styles.action} />
+        ) : null}
       </TableRow>
     </TableHead>
   );
